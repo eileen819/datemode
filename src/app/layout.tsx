@@ -25,9 +25,7 @@ export default function RootLayout({
       <body className="font-sans">
         <div className="max-w-107.5 mx-auto min-h-dvh">
           <Header />
-          <main className="px-4 pb-24 pt-4 h-[3000px] bg-amber-200">
-            {children}
-          </main>
+          <main className="px-4 pb-24 pt-4">{children}</main>
           <BottomNav />
         </div>
       </body>

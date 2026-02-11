@@ -1,6 +1,6 @@
 "use client";
 
-import { Bookmark, Home, LucideIcon, User } from "lucide-react";
+import { Bookmark, Heart, Home, LucideIcon, Menu, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,18 +13,18 @@ interface NavItem {
 const items: NavItem[] = [
   {
     href: "/",
-    label: "홈",
+    label: "home",
     Icon: Home,
   },
   {
-    href: "/saved",
-    label: "저장",
-    Icon: Bookmark,
+    href: "/likes",
+    label: "bookmark",
+    Icon: Heart,
   },
   {
-    href: "/my",
-    label: "내정보",
-    Icon: User,
+    href: "/menu",
+    label: "menu",
+    Icon: Menu,
   },
 ];
 
