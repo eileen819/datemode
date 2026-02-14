@@ -1,7 +1,9 @@
+"use client";
+
 import { ReactNode } from "react";
 
 const chipBase =
-  "cursor-pointer border border-border rounded-2xl py-1.5 px-4 text-sm active:scale-[0.98] focus:outline-none focus-visible:ring-2 transition-color duration-200";
+  "cursor-pointer border border-border rounded-2xl py-1.5 px-4 text-sm active:scale-[0.98] focus:outline-none focus-visible:ring-2 transition-color duration-300 ease-in-out";
 
 export default function SigleSection({
   title,
@@ -27,6 +29,7 @@ export default function SigleSection({
           return (
             <button
               key={tag}
+              type="button"
               className={`${chipBase} ${selected ? "bg-accent focus-visible:ring-foreground" : "bg-card focus-visible:ring-accent"}`}
               onClick={() => {
                 if (allowDeselect && selected) {
