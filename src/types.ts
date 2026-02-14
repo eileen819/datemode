@@ -4,3 +4,12 @@ export interface IFilter {
   budget: string;
   time: string;
 }
+
+export type Course = {
+  id: string;
+  title: string;
+  summary: string;
+  durationHours?: number;
+  tags: string[];
+  spots: { name: string; reason: string }[];
+};
