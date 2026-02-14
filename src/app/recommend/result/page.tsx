@@ -23,7 +23,7 @@ export default function Page() {
           </button>
         </div>
       </section>
-      <section className="mt-2 flex flex-col gap-4">
+      <section className="mt-4 grid gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
         {mockRecommend.courses.map((item) => (
           <article
             key={item.id}

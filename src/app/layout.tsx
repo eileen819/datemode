@@ -23,10 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={pretendard.variable}>
       <body className="font-sans">
-        <div className="max-w-107.5 mx-auto min-h-dvh">
+        <div className="max-w-107.5 md:max-w-240 mx-auto min-h-dvh flex flex-col">
           <Header />
-          <main className="px-4 pb-24 pt-4">{children}</main>
+          <main className="flex-1 px-4 pb-24 pt-4 md:pb-6">{children}</main>
           <BottomNav />
+          <footer className="hidden md:flex w-full items-center justify-center border-t border-border py-4 text-sm text-muted-foreground">
+            {new Date().getFullYear()} | Copyright Eileen
+          </footer>
         </div>
       </body>
     </html>
