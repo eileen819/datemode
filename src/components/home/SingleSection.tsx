@@ -5,25 +5,27 @@ import { ReactNode } from "react";
 const chipBase =
   "cursor-pointer border border-border rounded-2xl py-1.5 px-4 text-sm active:scale-[0.98] focus:outline-none focus-visible:ring-2 transition-color duration-300 ease-in-out";
 
-export default function SigleSection({
+interface ISingleSectionProps<T extends string> {
+  title: string;
+  tags: readonly T[];
+  value: T | "";
+  onSelect: (tag: T | "") => void;
+  allowDeselect?: boolean;
+  children?: ReactNode;
+}
+
+export default function SigleSection<T extends string>({
   title,
   tags,
   value,
   onSelect,
   children,
   allowDeselect = false,
-}: {
-  title: string;
-  tags: string[];
-  value: string;
-  onSelect: (tag: string) => void;
-  allowDeselect: boolean;
-  children?: ReactNode;
-}) {
+}: ISingleSectionProps<T>) {
   return (
     <section>
       <h2 className="text-sm font-bold mb-2">{title}</h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex md:flex-wrap gap-2 overflow-x-auto md:overflow-visible whitespace-nowrap">
         {tags.map((tag) => {
           const selected = value === tag;
           return (

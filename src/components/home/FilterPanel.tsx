@@ -5,6 +5,13 @@ import MultiSection from "./MultiSection";
 import SearchRegion from "./SearchRegion";
 import SigleSection from "./SingleSection";
 import { useState } from "react";
+import {
+  BUDGET_TAGS,
+  CATEGORY_TAGS,
+  Region,
+  REGION_TAGS,
+  TIME_TAGS,
+} from "@/constants/tags";
 
 export default function FilterPanel() {
   const [filters, setFilters] = useState<IFilter>({
@@ -13,7 +20,9 @@ export default function FilterPanel() {
     budget: "",
     time: "",
   });
-  const [regionList, setRegionList] = useState(["강남", "홍대", "성수"]);
+  const [regionList, setRegionList] = useState<Region[]>(
+    [...REGION_TAGS].slice(0, 3),
+  );
   console.log(regionList);
 
   const setFilter = <T extends keyof IFilter>(key: T, value: IFilter[T]) => {
@@ -32,18 +41,7 @@ export default function FilterPanel() {
         allowDeselect
       >
         <SearchRegion
-          regions={[
-            "강남",
-            "홍대",
-            "성수",
-            "잠실",
-            "용산",
-            "연남",
-            "합정",
-            "신촌",
-            "이태원",
-            "한남",
-          ]}
+          regions={REGION_TAGS}
           onSelect={(tag) => {
             setRegionList((prev) => {
               if (prev.includes(tag)) {
@@ -57,20 +55,20 @@ export default function FilterPanel() {
       </SigleSection>
       <MultiSection
         title="🗂️ 카테고리"
-        tags={["맛집", "카페", "전시", "산책"]}
+        tags={CATEGORY_TAGS}
         value={filters.categories}
         onSelect={(tags) => setFilter("categories", tags)}
       />
       <SigleSection
         title="💰 예산"
-        tags={["~3만원", "3~6만원", "6~10만원", "10만원+"]}
+        tags={BUDGET_TAGS}
         value={filters.budget}
         onSelect={(tag) => setFilter("budget", tag)}
         allowDeselect
       />
       <SigleSection
         title="⏰ 시간대"
-        tags={["오전(9~12시)", "오후(12~18시)", "저녁(18~22시)"]}
+        tags={TIME_TAGS}
         value={filters.time}
         onSelect={(tag) => setFilter("time", tag)}
         allowDeselect

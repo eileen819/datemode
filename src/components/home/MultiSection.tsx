@@ -3,21 +3,23 @@
 const chipBase =
   "cursor-pointer border border-border rounded-2xl py-1.5 px-4 text-sm active:scale-[0.98] focus:outline-none focus-visible:ring-2 transition-color duration-300 ease-in-out";
 
-export default function MultiSection({
+interface IMultiSectionProps<T extends string> {
+  title: string;
+  tags: readonly T[];
+  value: T[];
+  onSelect: (tags: T[]) => void;
+}
+
+export default function MultiSection<T extends string>({
   title,
   tags,
   value,
   onSelect,
-}: {
-  title: string;
-  tags: string[];
-  value: string[];
-  onSelect: (tags: string[]) => void;
-}) {
+}: IMultiSectionProps<T>) {
   return (
     <section>
       <h2 className="text-sm font-bold mb-2">{title}</h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex md:flex-wrap gap-2 overflow-x-auto md:overflow-visible whitespace-nowrap">
         {tags.map((tag) => {
           const selected = value.includes(tag);
 
