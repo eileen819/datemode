@@ -3,13 +3,15 @@
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export default function SearchRegion({
+interface ISearchRegionProps<T extends string> {
+  regions: readonly T[];
+  onSelect: (tag: T) => void;
+}
+
+export default function SearchRegion<T extends string>({
   regions,
   onSelect,
-}: {
-  regions: string[];
-  onSelect: (tag: string) => void;
-}) {
+}: ISearchRegionProps<T>) {
   const [query, setQuery] = useState("");
   const [dropOpen, setDropOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,7 +31,7 @@ export default function SearchRegion({
     setDropOpen(Boolean(value.trim()));
   };
 
-  const handleSelect = (region: string) => {
+  const handleSelect = (region: T) => {
     onSelect(region);
     setActiveIndex(0);
     setQuery("");

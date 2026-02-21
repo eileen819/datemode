@@ -9,10 +9,10 @@ export default function Header() {
           <span className="text-accent">Mode</span>
         </div>
         <div className="flex justify-center items-center gap-6">
-          <button className="text-foreground/60 hidden md:block rounded-full px-3 py-2 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <button className="text-foreground/60 hidden md:block rounded-full px-3 py-2 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer">
             <Home size={24} strokeWidth={2.25} />
           </button>
-          <button className="text-foreground/60 hidden md:block rounded-full px-3 py-2  transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <button className="text-foreground/60 hidden md:block rounded-full px-3 py-2 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer">
             <Heart size={24} strokeWidth={2.25} />
           </button>
           <button

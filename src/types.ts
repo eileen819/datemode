@@ -1,8 +1,10 @@
+import { Budget, Category, Region, Time } from "./constants/tags";
+
 export interface IFilter {
-  region: string;
-  categories: string[];
-  budget: string;
-  time: string;
+  region: Region | "";
+  categories: Category[];
+  budget: Budget | "";
+  time: Time | "";
 }
 
 export type Spot = {
