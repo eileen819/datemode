@@ -10,15 +10,16 @@ import {
   CATEGORY_TAGS,
   Region,
   REGION_TAGS,
-  TIME_TAGS,
+  TIMESLOT_TAGS,
 } from "@/constants/tags";
+import SubmitBtn from "./SubmitBtn";
 
 export default function FilterPanel() {
   const [filters, setFilters] = useState<IFilter>({
     region: "",
     categories: [],
     budget: "",
-    time: "",
+    timeslot: "",
   });
   const [regionList, setRegionList] = useState<Region[]>(
     [...REGION_TAGS].slice(0, 3),
@@ -68,10 +69,16 @@ export default function FilterPanel() {
       />
       <SigleSection
         title="⏰ 시간대"
-        tags={TIME_TAGS}
-        value={filters.time}
-        onSelect={(tag) => setFilter("time", tag)}
+        tags={TIMESLOT_TAGS}
+        value={filters.timeslot}
+        onSelect={(tag) => setFilter("timeslot", tag)}
         allowDeselect
+      />
+      <SubmitBtn
+        region={filters.region}
+        categories={filters.categories}
+        budget={filters.budget}
+        timeslot={filters.timeslot}
       />
     </>
   );

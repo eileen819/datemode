@@ -23,9 +23,9 @@ export const BUDGET_TAGS = [
 ] as const;
 export type Budget = (typeof BUDGET_TAGS)[number];
 
-export const TIME_TAGS = [
+export const TIMESLOT_TAGS = [
   "오전(9~12시)",
   "오후(12~18시)",
   "저녁(18~22시)",
 ] as const;
-export type Timeslot = (typeof TIME_TAGS)[number];
+export type Timeslot = (typeof TIMESLOT_TAGS)[number];

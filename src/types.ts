@@ -1,10 +1,10 @@
-import { Budget, Category, Region, Time } from "./constants/tags";
+import { Budget, Category, Region, Timeslot } from "./constants/tags";
 
 export interface IFilter {
   region: Region | "";
   categories: Category[];
   budget: Budget | "";
-  time: Time | "";
+  timeslot: Timeslot | "";
 }
 
 export type Spot = {
