@@ -38,7 +38,9 @@ export function createDateCoursePrompt(data: DataRequest) {
     규칙:
     - courses는 반드시 3개의 코스 객체를 담고 있어야 함
     - id는 "c1", "c2", "c3"로 함
+    - tags 배열 안의 아이템은 각 객체의 데이트 코스 분위기를 담은 단어로 3개
     - spots 배열 안의 객체는 최소 2개
+    - spots 객체 내부의 name 키 값은 정확한 장소 이름을 표시
     - spots 객체 내부의 address 키 값은 실제 존재하는 서울 ${region} 기반의 정확한 장소
     - 'summary'는 코스의 전체 분위기를 한눈에 알 수 있게 감성적으로 짓기 (예: "성수동에서 만나는 힙한 예술 한 조각 코스")
     - 말투는 '해요체'를 사용하며 이모지를 풍부하게 쓰기

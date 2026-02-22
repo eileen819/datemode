@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-types": "npx supabase gen types typescript --project-id poumrbgfuiddfsajpnnv > types_db.ts"
   },
   "dependencies": {
     "@google/genai": "^1.42.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.97.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "pretendard": "^1.3.9",
