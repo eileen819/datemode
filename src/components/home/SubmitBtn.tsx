@@ -60,7 +60,7 @@ export default function SubmitBtn({
       <button
         type="submit"
         disabled={isPending}
-        className={`w-full mt-2 cursor-pointer bg-foreground ${isPending ? "animate-pulse" : ""} text-accent border border-border rounded-3xl py-3 font-semibold active:scale-[0.99] transition hover:opacity-95 disabled:opacity-40 disabled:active:scale-100`}
+        className={`w-full mt-2 ${isPending ? "" : "cursor-pointer"} bg-foreground ${isPending ? "animate-pulse" : ""} text-accent border border-border rounded-3xl py-3 font-semibold active:scale-[0.99] transition hover:opacity-95 disabled:opacity-40 disabled:active:scale-100`}
       >
         {isPending ? (
           <>

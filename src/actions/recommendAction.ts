@@ -1,18 +1,13 @@
 "use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { generateRecommend } from "@/lib/reco/gemini";
 import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { createDateCoursePrompt } from "@/lib/reco/prompt";
+import { toJson } from "@/lib/reco/to-json";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import type { Json } from "../../types_db";
 
-// JSON-safe 변환: undefined 제거
-function toJson<T>(value: T): Json {
-  return JSON.parse(JSON.stringify(value)) as Json;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function recommendAction(_: any, formData: FormData) {
   // 제출 데이터 가지고 오기
   const inputData = {
@@ -25,7 +20,7 @@ export default async function recommendAction(_: any, formData: FormData) {
   // zod로 입력된 input데이터 검증하기
   const parsed = DataRequestSchema.safeParse(inputData);
   if (!parsed.success) {
-    return { status: false, error: "입력값이 올바르지 않습니다." };
+    return { status: false, error: "원본 데이터 형식이 올바르지 않습니다." };
   }
 
   // 프롬프트 정의
@@ -59,10 +54,6 @@ export default async function recommendAction(_: any, formData: FormData) {
       };
     }
     createdId = data.id;
-
-    // 모든 과정이 성공하면 isSuccess를 true로 변경(supabase 연결 후에 id값을 받은 것을 기준으로 변경하기)
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error);
     if (error.status === 503 || error.message?.includes("high demand")) {
@@ -74,10 +65,10 @@ export default async function recommendAction(_: any, formData: FormData) {
     }
     return {
       status: false,
-      error: `데이터 생성 중 오류가 발생했습니다. ${error}`,
+      error: `알 수 없는 오류가 발생했습니다: ${error.message}`,
     };
   }
 
   // 페이지 이동 - redirect
-  redirect(`/recommend/result?id=${createdId}`);
+  redirect(`/recommend/result/${createdId}`);
 }

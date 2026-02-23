@@ -1,5 +1,4 @@
 import { Budget, Category, Region, Timeslot } from "./constants/tags";
-
 export interface IFilter {
   region: Region | "";
   categories: Category[];
