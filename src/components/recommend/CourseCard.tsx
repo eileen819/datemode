@@ -15,7 +15,7 @@ export default function CourseCard({ resultId, item }: CourseCardProps) {
       className="flex h-full w-full min-w-0 bg-card border border-border rounded-xl p-5 shadow-sm transition will-change-transform hover:shadow-md hover:-translate-y-0.5 duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <article className="flex flex-col h-full min-w-0 w-full">
-        <h2 className="text-balance break-keep text-lg font-semibold line-clamp-2 lg:min-h-14">
+        <h2 className="text-balance break-keep text-lg font-semibold line-clamp-2 lg:min-h-6">
           {title}
         </h2>
         <div className="flex w-full min-w-0 lg:min-h-4 items-start gap-2 my-2 overflow-x-auto whitespace-nowrap lg:whitespace-normal content-start transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:rounded-md">

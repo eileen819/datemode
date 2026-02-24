@@ -2,7 +2,7 @@ import { Heart, Home } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-10 border-b border-border bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur">
       <div className="flex items-center justify-between h-14 px-4">
         <div className="text-lg font-bold">
           <span>Date</span>

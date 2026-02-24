@@ -25,7 +25,7 @@ export default function ReRecommendationBtn({
 
   return (
     <>
-      {isPending && <LoadingOverlay />}
+      {isPending && <LoadingOverlay isPending={isPending} />}
       <button
         onClick={handleRefetch}
         disabled={isPending}

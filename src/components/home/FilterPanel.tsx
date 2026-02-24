@@ -30,8 +30,6 @@ export default function FilterPanel() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  console.log(filters);
-
   return (
     <>
       <SigleSection
