@@ -1,6 +1,6 @@
 import CourseDetail from "@/components/course/CourseDetail";
 import CourseHeader from "@/components/course/CourseHeader";
-import MobileSaveShareBtn from "@/components/course/MobileSaveShareBtn";
+import SaveShareBtn from "@/components/course/SaveShareBtn";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
 import { notFound } from "next/navigation";
@@ -39,7 +39,9 @@ export default async function Course({
         tags={courseData.tags}
       />
       <CourseDetail summary={courseData.summary} spots={courseData.spots} />
-      <MobileSaveShareBtn />
+      <div className="md:hidden flex justify-center items-center gap-2 mt-2">
+        <SaveShareBtn />
+      </div>
     </div>
   );
 }

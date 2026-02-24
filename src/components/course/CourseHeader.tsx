@@ -1,4 +1,5 @@
 import { Clock } from "lucide-react";
+import SaveShareBtn from "./SaveShareBtn";
 
 export default function CourseHeader({
   title,
@@ -29,12 +30,7 @@ export default function CourseHeader({
       </div>
       {/* md사이즈 이상에서 저장/공유버튼 */}
       <div className="hidden md:flex md:justify-center md:items-center md:gap-2">
-        <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-muted hover:bg-accent/60 cursor-pointer">
-          저장하기
-        </button>
-        <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer">
-          공유하기
-        </button>
+        <SaveShareBtn />
       </div>
     </header>
   );
