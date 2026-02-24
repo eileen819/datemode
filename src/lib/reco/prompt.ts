@@ -38,6 +38,7 @@ export function createDateCoursePrompt(data: DataRequest) {
     규칙:
     - courses는 반드시 3개의 코스 객체를 담고 있어야 함
     - id는 "c1", "c2", "c3"로 함
+    - title의 글자 수는 한글, 영어 포함해서 20자이내로 제한
     - tags 배열 안의 아이템은 각 객체의 데이트 코스 분위기를 담은 단어로 3개
     - spots 배열 안의 객체는 3개, 서로 다른 장소여야 함
     - spots 객체 내부의 name 키 값은 정확한 장소 이름을 표시

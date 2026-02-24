@@ -2,7 +2,7 @@ import CourseList from "@/components/recommend/CourseList";
 import RecoHeader from "@/components/recommend/RecoHeader";
 import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
 import { notFound } from "next/navigation";
 
 export default async function Page({
@@ -12,22 +12,13 @@ export default async function Page({
 }) {
   const { id } = await params;
 
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("recommendations")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    throw new Error(`데이터 가져오기에 실패했습니다: ${error.message}`);
-  }
-  if (!data) {
+  const row = await getRecommendationRow(id);
+  if (!row) {
     notFound();
   }
 
-  const inputData = DataRequestSchema.safeParse(data.input_data);
-  const aiResponse = RecommendResponseSchema.safeParse(data.ai_response);
+  const inputData = DataRequestSchema.safeParse(row.input_data);
+  const aiResponse = RecommendResponseSchema.safeParse(row.ai_response);
   if (!inputData.success) {
     console.error(inputData.error);
     throw new Error(

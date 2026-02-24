@@ -24,4 +24,5 @@ export const RecommendResponseSchema = z.object({
     .length(3, { error: "courses must be exactly 3." }),
 });
 
+export type CourseObj = z.infer<typeof CourseSchema>;
 export type RecommendResponse = z.infer<typeof RecommendResponseSchema>;

@@ -11,7 +11,7 @@ export default function CourseCard({ resultId, item }: CourseCardProps) {
   const { id, title, summary, durationHours, tags, spots } = item;
   return (
     <Link
-      href={`/recommend/result/${resultId}?courseId=${id}`}
+      href={`/recommend/result/${resultId}/course/${id}`}
       className="flex h-full w-full min-w-0"
     >
       <article className="flex flex-col h-full min-w-0 w-full bg-card border border-border rounded-xl p-5 shadow-sm transition will-change-transform hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
