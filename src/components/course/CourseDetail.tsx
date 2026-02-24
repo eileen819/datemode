@@ -1,3 +1,5 @@
+import CourseMap from "./CourseMap";
+
 export default function CourseDetail({
   summary,
   spots,
@@ -14,11 +16,8 @@ export default function CourseDetail({
             {summary}
           </p>
         </section>
-
         {/* 지도 영역 */}
-        <section className="w-full h-64 bg-gray-300">
-          <div>지도 영역</div>
-        </section>
+        <CourseMap />
       </div>
       {/* 카드 영역 */}
       <section className="space-y-3 md:w-2/5 py-4">

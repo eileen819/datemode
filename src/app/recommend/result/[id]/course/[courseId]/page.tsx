@@ -1,5 +1,6 @@
 import CourseDetail from "@/components/course/CourseDetail";
 import CourseHeader from "@/components/course/CourseHeader";
+import KakaoMapProvider from "@/components/course/KakaoMapProvider";
 import SaveShareBtn from "@/components/course/SaveShareBtn";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
@@ -30,18 +31,19 @@ export default async function Course({
   if (!courseData) {
     notFound();
   }
-
   return (
-    <div className="mx-auto max-w-xl md:max-w-5xl px-4">
-      <CourseHeader
-        title={courseData.title}
-        durationHours={courseData.durationHours}
-        tags={courseData.tags}
-      />
-      <CourseDetail summary={courseData.summary} spots={courseData.spots} />
-      <div className="md:hidden flex justify-center items-center gap-2 mt-2">
-        <SaveShareBtn />
+    <KakaoMapProvider>
+      <div className="mx-auto max-w-xl md:max-w-5xl px-4">
+        <CourseHeader
+          title={courseData.title}
+          durationHours={courseData.durationHours}
+          tags={courseData.tags}
+        />
+        <CourseDetail summary={courseData.summary} spots={courseData.spots} />
+        <div className="md:hidden flex justify-center items-center gap-2 mt-2">
+          <SaveShareBtn />
+        </div>
       </div>
-    </div>
+    </KakaoMapProvider>
   );
 }
