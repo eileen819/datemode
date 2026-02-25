@@ -21,10 +21,10 @@ export default function CourseCard({ resultId, item }: CourseCardProps) {
         <div className="flex w-full min-w-0 lg:min-h-4 items-start gap-2 my-2 overflow-x-auto whitespace-nowrap lg:whitespace-normal content-start transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:rounded-md">
           {spots.map((place) => (
             <span
-              key={place.name}
+              key={place.order}
               className="inline-flex shrink-0 text-xs border border-border bg-accent px-3 py-1 rounded-full whitespace-nowrap"
             >
-              {place.name}
+              {place.nameHint.replace(/\s*\([^)]*\)/g, "")}
             </span>
           ))}
         </div>

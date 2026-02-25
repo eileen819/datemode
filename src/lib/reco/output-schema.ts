@@ -1,12 +1,10 @@
 import * as z from "zod";
 
 export const SpotSchema = z.object({
-  name: z.string().min(1, { error: "spot.name is required." }),
-  address: z.string().min(1, { error: "spot.address is required." }),
+  order: z.number(),
+  query: z.string().min(1, { error: "spot.query is required." }),
+  nameHint: z.string().min(1, { error: "spot.nameHint is required." }),
   reason: z.string().min(1, { error: "spot.reason is required." }),
-  placeId: z.string().min(1).optional(),
-  lat: z.number().optional(),
-  lng: z.number().optional(),
 });
 
 export const CourseSchema = z.object({
@@ -24,5 +22,6 @@ export const RecommendResponseSchema = z.object({
     .length(3, { error: "courses must be exactly 3." }),
 });
 
+export type Spot = z.infer<typeof SpotSchema>;
 export type CourseObj = z.infer<typeof CourseSchema>;
 export type RecommendResponse = z.infer<typeof RecommendResponseSchema>;

@@ -6,7 +6,7 @@ export interface IFilter {
   timeslot: Timeslot | "";
 }
 
-export type Spot = {
+/* export type Spot = {
   name: string;
   address: string;
   reason: string;
@@ -23,3 +23,4 @@ export type Course = {
   tags: string[];
   spots: Spot[];
 };
+ */
