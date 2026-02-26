@@ -24,7 +24,6 @@ export default function FilterPanel() {
   const [regionList, setRegionList] = useState<Region[]>(
     [...REGION_TAGS].slice(0, 3),
   );
-  console.log(regionList);
 
   const setFilter = <T extends keyof IFilter>(key: T, value: IFilter[T]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));

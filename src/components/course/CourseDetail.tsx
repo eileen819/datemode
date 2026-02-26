@@ -1,10 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Spot } from "@/lib/reco/output-schema";
-import CourseMap from "./CourseMap";
 import { verifiedSpot, verifySpot } from "@/lib/reco/verifySpot.client";
 import { useCallback, useEffect, useState } from "react";
 import SpotCard from "./SpotCard";
+import dynamic from "next/dynamic";
+
+const CourseMap = dynamic(() => import("./CourseMap"), {
+  ssr: false,
+  loading: () => (
+    <section className="rounded-md overflow-hidden border border-border">
+      <div className="h-64 md:h-85 bg-muted-foreground/20 animate-pulse rounded-md" />
+    </section>
+  ),
+});
 
 export default function CourseDetail({
   summary,
@@ -14,6 +24,8 @@ export default function CourseDetail({
   spots: Spot[];
 }) {
   const [spotsWithStatus, setSpotsWithStatus] = useState<verifiedSpot[]>([]);
+  const [activeId, setActiveId] = useState<number | null>(null);
+  const [mapInstance, setMapInstance] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // 검증된 장소 찾기
@@ -29,7 +41,9 @@ export default function CourseDetail({
     const kakao = window.kakao;
     if (!kakao.maps.load) return;
 
-    kakao.maps.load(run);
+    kakao.maps.load(() => {
+      run();
+    });
   }, [run]);
 
   return (
@@ -42,10 +56,21 @@ export default function CourseDetail({
           </p>
         </section>
         {/* 지도 영역 */}
-        <CourseMap spots={spotsWithStatus} isLoading={isLoading} />
+        <CourseMap
+          spots={spotsWithStatus}
+          isLoading={isLoading}
+          setActiveId={setActiveId}
+          setMapInstance={setMapInstance}
+        />
       </div>
       {/* 카드 영역 */}
-      <SpotCard spots={spotsWithStatus} isLoading={isLoading} />
+      <SpotCard
+        spots={spotsWithStatus}
+        isLoading={isLoading}
+        activeId={activeId}
+        setActiveId={setActiveId}
+        mapInstance={mapInstance}
+      />
     </div>
   );
 }

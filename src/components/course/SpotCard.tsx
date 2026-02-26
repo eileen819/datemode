@@ -1,13 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { verifiedSpot } from "@/lib/reco/verifySpot.client";
 import { AlertCircle, CheckCircle2, MapPin } from "lucide-react";
 
 export default function SpotCard({
   spots,
   isLoading,
+  activeId,
+  setActiveId,
+  mapInstance,
 }: {
   spots: verifiedSpot[];
   isLoading: boolean;
+  activeId: number | null;
+  setActiveId: (id: number) => void;
+  mapInstance: any;
 }) {
+  const handleClick = (
+    id: number,
+    lat: number | undefined,
+    lng: number | undefined,
+  ) => {
+    if (!mapInstance || !lat || !lng) return;
+    setActiveId(id);
+    const kakao = window.kakao;
+    mapInstance.panTo(new kakao.maps.LatLng(lat, lng));
+  };
+
   if (isLoading) {
     return (
       <section className="md:my-auto space-y-3 md:w-2/5 py-4">
@@ -23,7 +43,8 @@ export default function SpotCard({
       {spots.map((spot, i) => (
         <article
           key={`${spot.order}-${i}`}
-          className="flex flex-col gap-2 bg-accent/10 rounded-xl border border-border p-4 shadow-sm"
+          onClick={() => handleClick(spot.order, spot.lat, spot.lng)}
+          className={`flex flex-col gap-2 rounded-xl border p-4 shadow-sm transition duration-300 cursor-pointer ${activeId === spot.order ? "border-accent-hover scale-105 bg-accent-hover/20" : "border-border bg-accent/10"}`}
         >
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold flex-1 flex gap-1">
