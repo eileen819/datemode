@@ -11,6 +11,7 @@ export default function Header() {
     await supabase.auth.signOut();
 
     router.push("/");
+    router.refresh();
     console.log("sign-out!");
   };
   return (

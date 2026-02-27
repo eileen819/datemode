@@ -10,7 +10,7 @@ export default function GoogleLoginBtn() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${location.origin}/auth/callback?returnTo=${encodeURIComponent("/account")}`,
+        redirectTo: `${location.origin}/auth/callback?returnTo=${encodeURIComponent("/me")}`,
       },
     });
 

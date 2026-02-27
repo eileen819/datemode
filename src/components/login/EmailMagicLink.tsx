@@ -31,9 +31,9 @@ export default function EmailMagicLink() {
 
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.signInWithOtp({
-      email,
+      email: normalized,
       options: {
-        emailRedirectTo: `${location.origin}/auth/confirm`,
+        emailRedirectTo: `${location.origin}/auth/confirm?returnTo=${encodeURIComponent("/me")}`,
       },
     });
 
