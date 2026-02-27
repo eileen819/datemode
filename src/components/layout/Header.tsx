@@ -1,6 +1,18 @@
-import { Heart, Home } from "lucide-react";
+"use client";
+
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { Heart, Home, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
+  const handleLogout = async () => {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+
+    router.push("/");
+    console.log("sign-out!");
+  };
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur">
       <div className="flex items-center justify-between h-14 px-4">
@@ -14,6 +26,12 @@ export default function Header() {
           </button>
           <button className="text-foreground/60 hidden md:block rounded-full px-3 py-2 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer">
             <Heart size={24} strokeWidth={2.25} />
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-foreground/60 rounded-full px-3 py-2 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
+          >
+            <LogOut size={24} strokeWidth={2.25} />
           </button>
           <button
             aria-label="프로필"
