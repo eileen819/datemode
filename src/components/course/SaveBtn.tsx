@@ -40,15 +40,17 @@ export default function SaveBtn({
     startTransition(async () => {
       const res = await saveBookmarkAction({
         snapshot: courseData,
-        sourceRecommendId: recommendId,
+        source_recommend_id: recommendId,
+        course_key: courseData.id,
       });
       if (res.error || !res.status) {
         alert(res.error);
       }
+      if (!res.error && res.status) {
+        // DB 저장 성공 시, 마이페이지로 이동
+        router.push("/me?tab=bookmarks");
+      }
     });
-
-    // DB 저장 성공 시, 마이페이지로 이동
-    router.push("/me?tab=bookmarks");
   };
 
   return (

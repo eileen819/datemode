@@ -45,6 +45,7 @@ export default function Page() {
           width={130}
           height={130}
           alt="empty-folder-image"
+          priority
           className="mb-2"
         />
         <p className="text-lg font-semibold">📂 아직 검색 기록이 없어요</p>

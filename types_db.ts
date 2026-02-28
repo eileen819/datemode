@@ -16,24 +16,27 @@ export type Database = {
     Tables: {
       bookmarks: {
         Row: {
+          course_key: string
           created_at: string
           id: string
           snapshot: Json
-          source_recommend_id: string | null
+          source_recommend_id: string
           user_id: string
         }
         Insert: {
+          course_key: string
           created_at?: string
           id?: string
           snapshot: Json
-          source_recommend_id?: string | null
+          source_recommend_id: string
           user_id: string
         }
         Update: {
+          course_key?: string
           created_at?: string
           id?: string
           snapshot?: Json
-          source_recommend_id?: string | null
+          source_recommend_id?: string
           user_id?: string
         }
         Relationships: []
