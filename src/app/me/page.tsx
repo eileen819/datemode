@@ -1,7 +1,6 @@
 "use client";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { LogOut } from "lucide-react";
+import LogoutBtn from "@/components/me/LogoutBtn";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -26,18 +25,16 @@ export default function Page() {
             </span>
           </div>
         </div>
-        <button className="cursor-pointer p-2 rounded-md hover:bg-muted transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-          <LogOut size={20} className="text-red-600" />
-        </button>
+        <LogoutBtn />
       </div>
       <div className="grid grid-cols-2 border-b border-border">
         <button
-          className={`cursor-pointer pt-4 pb-2 transition duration-300 ease-in-out ${active === "history" ? "text-foreground font-semibold border-b-2 border-accent" : "text-muted-foreground hover:text-foreground"}`}
+          className={`rounded-md cursor-pointer pt-4 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition duration-300 ease-in-out ${active === "history" ? "text-foreground font-semibold border-b-2 border-accent" : "text-muted-foreground hover:text-foreground"}`}
         >
           검색 히스토리
         </button>
         <button
-          className={`cursor-pointer pt-4 pb-2 transition duration-300 ease-in-out ${active === "bookmark" ? "text-foreground font-semibold border-b-2 border-accent" : "text-muted-foreground hover:text-foreground"}`}
+          className={`rounded-md cursor-pointer pt-4 pb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition duration-300 ease-in-out ${active === "bookmark" ? "text-foreground font-semibold border-b-2 border-accent" : "text-muted-foreground hover:text-foreground"}`}
         >
           북마크한 코스
         </button>
@@ -52,7 +49,7 @@ export default function Page() {
         />
         <p className="text-lg font-semibold">📂 아직 검색 기록이 없어요</p>
         <p className="text-sm text-muted-foreground">AI 추천을 받아보세요</p>
-        <button className="cursor-pointer mt-2 text-sm rounded-full bg-accent border border-border px-3 py-1 hover:bg-foreground hover:text-accent transition duration-200 ease-in-out">
+        <button className="cursor-pointer mt-6 text-sm rounded-full bg-accent border border-border px-3 py-1 hover:bg-foreground hover:text-accent transition duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
           코스 추천받기
         </button>
       </div>
@@ -60,7 +57,7 @@ export default function Page() {
         {new Array(3).fill("card").map((a, i) => (
           <div
             key={i}
-            className="cursor-pointer rounded-md bg-card w-full px-4 shadow-xs border border-border hover:shadow-sm hover:-translate-y-0.5 transition duration-200"
+            className="rounded-md bg-card w-full px-4 shadow-xs border border-border hover:shadow-sm hover:-translate-y-0.5 transition duration-200"
           >
             <div className="flex justify-between items-center border-b border-border py-3 px-2">
               <div className="space-x-2 text-center text-sm">
@@ -68,9 +65,9 @@ export default function Page() {
                 <span>오후</span>
                 <span>산책</span>
               </div>
-              <div className="text-sm px-3 py-1 rounded-full bg-accent border border-border hover:bg-foreground hover:text-accent transition duration-200 ease-in-out">
+              <button className="cursor-pointer text-sm px-3 py-1 rounded-full bg-accent border border-border hover:bg-foreground hover:text-accent transition duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                 다시보기
-              </div>
+              </button>
             </div>
             <div className="text-sm text-muted-foreground py-3 px-2">
               2026.02.28

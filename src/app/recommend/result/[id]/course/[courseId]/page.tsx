@@ -1,7 +1,7 @@
 import CourseDetail from "@/components/course/CourseDetail";
 import CourseHeader from "@/components/course/CourseHeader";
 import KakaoMapProvider from "@/components/course/KakaoMapProvider";
-import SaveShareBtn from "@/components/course/SaveShareBtn";
+import SaveBtn from "@/components/course/SaveBtn";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
 import { notFound } from "next/navigation";
@@ -38,10 +38,15 @@ export default async function Course({
           title={courseData.title}
           durationHours={courseData.durationHours}
           tags={courseData.tags}
+          courseData={courseData}
+          recommendId={id}
         />
         <CourseDetail summary={courseData.summary} spots={courseData.spots} />
         <div className="md:hidden flex justify-center items-center gap-2 mt-2">
-          <SaveShareBtn />
+          <SaveBtn courseData={courseData} recommendId={id} />
+          <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            공유하기
+          </button>
         </div>
       </div>
     </KakaoMapProvider>

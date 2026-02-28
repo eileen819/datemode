@@ -65,7 +65,7 @@ export function useKakaoMap({
         const pos = new window.kakao.maps.LatLng(spot.lat, spot.lng);
         const imageSrc = "/marker.png";
         const imageSize = new kakao.maps.Size(35, 35);
-        const imageOption = { offset: new kakao.maps.Point(17, 41) };
+        const imageOption = { offset: new kakao.maps.Point(17, 34) };
 
         const markerImage = new kakao.maps.MarkerImage(
           imageSrc,

@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          snapshot: Json
+          source_recommend_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          snapshot: Json
+          source_recommend_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          snapshot?: Json
+          source_recommend_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       recommendations: {
         Row: {
           ai_response: Json

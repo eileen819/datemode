@@ -2,15 +2,22 @@
 
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export default function GoogleLoginBtn() {
+  const searchParams = useSearchParams();
+
   const onGoogle = async () => {
+    const redirectTo =
+      searchParams.get("redirect_to") ?? searchParams.get("redirectTo");
+    const next = redirectTo ? decodeURIComponent(redirectTo) : "/me";
+
     const supabase = createSupabaseBrowserClient();
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${location.origin}/auth/callback?returnTo=${encodeURIComponent("/me")}`,
+        redirectTo: `${location.origin}/auth/callback?redirectTo=${encodeURIComponent(next)}`,
       },
     });
 

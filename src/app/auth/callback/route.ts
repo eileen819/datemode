@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
-  console.log(origin);
   const code = searchParams.get("code");
-  const returnTo = searchParams.get("returnTo") ?? "/me";
+  const redirectTo =
+    searchParams.get("redirect_to") ?? searchParams.get("redirectTo") ?? "/me";
 
   if (!code) {
     return NextResponse.redirect(new URL("/login?error=missing_code", origin));
@@ -19,7 +19,9 @@ export async function GET(request: Request) {
   }
 
   const safePath =
-    returnTo.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/me";
+    redirectTo.startsWith("/") && !redirectTo.startsWith("//")
+      ? redirectTo
+      : "/me";
 
   return NextResponse.redirect(new URL(safePath, origin));
 }

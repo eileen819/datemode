@@ -1,11 +1,13 @@
 "use client";
 
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function EmailMagicLink() {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState<string>("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -29,11 +31,16 @@ export default function EmailMagicLink() {
     setErrorMsg("");
     setStatus("sending");
 
+    const redirectTo =
+      searchParams.get("redirect_to") ?? searchParams.get("redirectTo");
+    const next = redirectTo ? decodeURIComponent(redirectTo) : "/me";
+    console.log(next);
+
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.signInWithOtp({
       email: normalized,
       options: {
-        emailRedirectTo: `${location.origin}/auth/confirm?returnTo=${encodeURIComponent("/me")}`,
+        emailRedirectTo: `${location.origin}${encodeURIComponent(next)}`,
       },
     });
 
