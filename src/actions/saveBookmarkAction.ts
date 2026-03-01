@@ -3,11 +3,13 @@
 import { saveBookmarkInputSchema } from "@/components/me/saveBookmarkInputSchema";
 import { CourseObj, CourseSchema } from "@/lib/reco/output-schema";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 interface ISaveBookmarkInput {
   snapshot: unknown;
   source_recommend_id: string;
   course_key: CourseObj["id"];
+  pathname: string;
 }
 
 export async function saveBookmarkAction(input: ISaveBookmarkInput) {
@@ -54,7 +56,8 @@ export async function saveBookmarkAction(input: ISaveBookmarkInput) {
     };
   }
 
-  // DB insert
+  // 토글 로직
+  // DB insert 시도
   const { error: insertError } = await supabase.from("bookmarks").insert({
     user_id: user.id,
     source_recommend_id: source_recommend_id,
@@ -62,18 +65,41 @@ export async function saveBookmarkAction(input: ISaveBookmarkInput) {
     course_key: course_key,
   });
 
+  // 1) insert 성공 = 북마크 저장(true)
+  if (!insertError) {
+    if (input.pathname) {
+      revalidatePath(input.pathname);
+    }
+  }
+
+  // 2) insertError === 사실상 북마크 데이터 삭제
   if (insertError) {
-    // 중복 저장(UNIQUE 위반)시 에러
+    // 중복 저장(UNIQUE 위반)시 북마크 데이터 삭제하기
     if (insertError.code === "23505") {
+      const { error: deleteError } = await supabase
+        .from("bookmarks")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("source_recommend_id", source_recommend_id)
+        .eq("course_key", course_key);
+
+      if (deleteError) {
+        return {
+          status: false,
+          error: "DB_ERROR: 북마크 삭제에 실패했습니다",
+        };
+      }
+
+      if (input.pathname) {
+        revalidatePath(input.pathname);
+      }
+    } else {
+      // insert 과정에서 그 외의 에러 발생
       return {
         status: false,
-        error: `ALREADY_EXISTS: ${insertError.message}`,
+        error: "DB_ERROR: 북마크 저장에 실패했습니다.",
       };
     }
-    return {
-      status: false,
-      error: "DB_ERROR: 북마크 저장에 실패했습니다.",
-    };
   }
 
   return {

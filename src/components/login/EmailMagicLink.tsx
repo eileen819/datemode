@@ -36,8 +36,6 @@ export default function EmailMagicLink() {
     const next = redirectTo ? decodeURIComponent(redirectTo) : "/me";
     const nextPath = next.startsWith("/") ? next : `/${next}`;
 
-    console.log(`next: ${next}, nextPath: ${nextPath}`);
-
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.signInWithOtp({
       email: normalized,
@@ -45,9 +43,6 @@ export default function EmailMagicLink() {
         emailRedirectTo: `${location.origin}${nextPath}`,
       },
     });
-    console.log(
-      `emailRedirectTo: ${location.origin}${encodeURIComponent(next)}`,
-    );
 
     if (error) {
       setStatus("error");

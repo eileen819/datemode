@@ -8,8 +8,6 @@ export async function GET(request: Request) {
   const redirectRaw =
     searchParams.get("redirect_to") ?? searchParams.get("redirectTo") ?? "/me";
 
-  console.log(redirectRaw);
-
   if (!token_hash || !type) {
     return NextResponse.redirect(new URL("/login?error=missing_token", origin));
   }
