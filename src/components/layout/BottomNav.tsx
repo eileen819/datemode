@@ -22,7 +22,7 @@ const items: NavItem[] = [
     Icon: Heart,
   },
   {
-    href: "/me",
+    href: "/me?tab=history",
     label: "me",
     Icon: UserRound,
   },

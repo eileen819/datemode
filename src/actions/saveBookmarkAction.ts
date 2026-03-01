@@ -70,6 +70,7 @@ export async function saveBookmarkAction(input: ISaveBookmarkInput) {
     if (input.pathname) {
       revalidatePath(input.pathname);
     }
+    return { status: true, bookmarked: true, error: "" };
   }
 
   // 2) insertError === 사실상 북마크 데이터 삭제
@@ -100,10 +101,6 @@ export async function saveBookmarkAction(input: ISaveBookmarkInput) {
         error: "DB_ERROR: 북마크 저장에 실패했습니다.",
       };
     }
+    return { status: true, bookmarked: false, error: "" };
   }
-
-  return {
-    status: true,
-    error: "",
-  };
 }
