@@ -36,16 +36,20 @@ export default function SaveBtn({
 
     // 로그인 체크
     const supabase = createSupabaseBrowserClient();
-    const { data, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    if (error) {
-      console.error(error);
-      throw new Error("로그인 확인 중 오류가 발생했습니다.");
-    }
-
-    if (!data.user) {
+    if (!user) {
       const redirectTo = encodeURIComponent(`${pathname}`);
       router.push(`/login?redirectTo=${redirectTo}`);
+      return;
+    }
+
+    if (authError) {
+      console.error(authError);
+      alert("로그인 상태 확인에 실패했어요. 잠시 후 다시 시도해주세요.");
       return;
     }
 

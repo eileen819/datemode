@@ -90,7 +90,7 @@ export function useKakaoMap({
           position: pos,
           content,
           xAnchor: 0.5, // 컨텐츠의 x 위치
-          yAnchor: 2.5, // 컨텐츠의 y 위치
+          yAnchor: 2.3, // 컨텐츠의 y 위치
         });
         overlayRef.current.push(overlay);
 
