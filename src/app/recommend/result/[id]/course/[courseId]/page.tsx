@@ -1,4 +1,5 @@
 import CourseDetailView from "@/components/common/CourseDetailView";
+import ExpiredCourse from "@/components/course/ExpiredCourse";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getBookmarkStatus } from "@/lib/supabase/getBookmarkStatus";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
@@ -15,7 +16,7 @@ export default async function Page({
   // 1) 전체 데이터 조회
   const row = await getRecommendationRow(id);
   if (!row) {
-    notFound();
+    return <ExpiredCourse />;
   }
   // 2) 북마크 데이터 조회
   const { isBookmarked } = await getBookmarkStatus(id, courseId);

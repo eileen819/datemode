@@ -1,9 +1,9 @@
+import ExpiredCourse from "@/components/course/ExpiredCourse";
 import CourseList from "@/components/recommend/CourseList";
 import RecoHeader from "@/components/recommend/RecoHeader";
 import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
-import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -14,7 +14,7 @@ export default async function Page({
 
   const row = await getRecommendationRow(id);
   if (!row) {
-    notFound();
+    return <ExpiredCourse />;
   }
 
   const inputData = DataRequestSchema.safeParse(row.input_data);

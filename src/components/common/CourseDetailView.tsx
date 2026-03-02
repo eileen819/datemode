@@ -3,6 +3,7 @@ import CourseDetail from "../course/CourseDetail";
 import CourseHeader from "../course/CourseHeader";
 import KakaoMapProvider from "../course/KakaoMapProvider";
 import SaveBtn from "../course/SaveBtn";
+import ShareBtn from "../course/ShareBtn";
 
 export default function CourseDetailView({
   courseData,
@@ -28,16 +29,19 @@ export default function CourseDetailView({
         />
         <CourseDetail summary={courseData.summary} spots={courseData.spots} />
         {mode === "recommend" && (
-          <div className="md:hidden flex justify-center items-center gap-2 mt-2">
-            <SaveBtn
-              courseData={courseData}
-              recommendId={recommendId}
-              initialBookmarked={isBookmarked}
-            />
-            <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              공유하기
-            </button>
-          </div>
+          <>
+            <div className="md:hidden flex justify-center items-center gap-2 mt-2">
+              <SaveBtn
+                courseData={courseData}
+                recommendId={recommendId}
+                initialBookmarked={isBookmarked}
+              />
+              <ShareBtn />
+            </div>
+            <p className="md:hidden mt-2 text-center text-xs text-muted-foreground">
+              공유 링크는 24시간 후 만료됩니다.
+            </p>
+          </>
         )}
       </div>
     </KakaoMapProvider>

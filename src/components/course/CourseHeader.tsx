@@ -2,6 +2,7 @@ import { Clock } from "lucide-react";
 import { CourseObj } from "@/lib/reco/output-schema";
 import SaveBtn from "./SaveBtn";
 import DelBookmarkBtn from "../me/DelBookmarkBtn";
+import ShareBtn from "./ShareBtn";
 
 export default function CourseHeader({
   title,
@@ -40,15 +41,18 @@ export default function CourseHeader({
       </div>
       {/* md사이즈 이상에서 저장/공유버튼 */}
       {mode === "recommend" && (
-        <div className="hidden md:flex md:justify-center md:items-center md:gap-2">
-          <SaveBtn
-            courseData={courseData}
-            recommendId={recommendId}
-            initialBookmarked={initialBookmarked}
-          />
-          <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-            공유하기
-          </button>
+        <div className="hidden md:flex md:flex-col">
+          <div className="md:flex md:justify-center md:items-center md:gap-2">
+            <SaveBtn
+              courseData={courseData}
+              recommendId={recommendId}
+              initialBookmarked={initialBookmarked}
+            />
+            <ShareBtn />
+          </div>
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            공유 링크는 24시간 후 만료됩니다.
+          </p>
         </div>
       )}
       {mode === "bookmarks" && <DelBookmarkBtn />}
