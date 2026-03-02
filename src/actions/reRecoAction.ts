@@ -6,22 +6,65 @@ import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { createDateCoursePrompt } from "@/lib/reco/prompt";
 import { toJson } from "@/lib/reco/to-json";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function reRecoFetchAction(resultId: string) {
-  // input_data 조회
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
+
+  // 로그인한 사용자 확인
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return {
+      status: false,
+      error: "로그인이 필요합니다.",
+    };
+  }
+
+  // 기존 추천 가져오기
+  const { data: rec, error: recError } = await supabase
     .from("recommendations")
-    .select("input_data")
+    .select("id,user_id,anon_key,input_data")
     .eq("id", resultId)
     .single();
-  if (error || !data) {
-    throw new Error(`기존 추천 기록을 찾을 수 없습니다.: ${error.message}`);
+
+  if (recError || !rec) {
+    return {
+      status: false,
+      error: "기존 추천 기록을 찾을 수 없습니다.",
+    };
+  }
+
+  // 접근/귀속 규칙
+  // 1) 이미 내 row면 패스
+  if (rec.user_id === user.id) {
+  } else if (rec.user_id == null) {
+    // 2) 아직 비로그인 row면 anon_key 확인 후 claim
+    const anonKey = (await cookies()).get("anon_key")?.value; // cookies()는 async :contentReference[oaicite:0]{index=0}
+    if (!anonKey || rec.anon_key !== anonKey) {
+      return { status: false, error: "비로그인 기록을 확인할 수 없습니다." };
+    }
+
+    const { error: claimError } = await supabase
+      .from("recommendations")
+      .update({ user_id: user.id })
+      .eq("id", resultId)
+      .is("user_id", null);
+
+    if (claimError) {
+      return { status: false, error: "기록 귀속 처리 중 오류가 발생했습니다." };
+    }
+  } else {
+    // 3) 다른 사람 row면 차단
+    return { status: false, error: "접근 권한이 없습니다." };
   }
 
   // 조회한 input_data 검증
-  const validateInputData = DataRequestSchema.safeParse(data.input_data);
+  const validateInputData = DataRequestSchema.safeParse(rec.input_data);
   if (!validateInputData.success) {
     return {
       status: false,
@@ -48,11 +91,12 @@ export async function reRecoFetchAction(resultId: string) {
       .insert({
         input_data: toJson(validateInputData.data),
         ai_response: toJson(result.data),
+        user_id: user.id,
       })
       .select("id")
       .single();
 
-    if (insertError) {
+    if (insertError || !newData) {
       console.error("DB Insert Error:", insertError);
       return { status: false, error: "추천 결과 저장 중 오류가 발생했습니다." };
     }

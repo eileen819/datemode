@@ -4,16 +4,30 @@ import { reRecoFetchAction } from "@/actions/reRecoAction";
 import { useTransition } from "react";
 import LoadingOverlay from "../common/LoadingOverlay";
 import { RefreshCcw } from "lucide-react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function ReRecommendationBtn({
   resultId,
 }: {
   resultId: string;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
-  const handleRefetch = () => {
+  const handleRefetch = async () => {
     if (!confirm("다시 새로운 추천 코스를 생성해드릴까요?")) return;
+
+    // 로그인 체크
+    const supabase = createSupabaseBrowserClient();
+    const { data: userData } = await supabase.auth.getUser();
+
+    if (!userData.user) {
+      const redirectTo = encodeURIComponent(`${pathname}`);
+      router.push(`/login?redirectTo=${redirectTo}`);
+      return;
+    }
 
     startTransition(async () => {
       const result = await reRecoFetchAction(resultId);

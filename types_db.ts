@@ -44,6 +44,7 @@ export type Database = {
       recommendations: {
         Row: {
           ai_response: Json
+          anon_key: string | null
           created_at: string
           id: string
           input_data: Json
@@ -51,6 +52,7 @@ export type Database = {
         }
         Insert: {
           ai_response: Json
+          anon_key?: string | null
           created_at?: string
           id?: string
           input_data: Json
@@ -58,6 +60,7 @@ export type Database = {
         }
         Update: {
           ai_response?: Json
+          anon_key?: string | null
           created_at?: string
           id?: string
           input_data?: Json

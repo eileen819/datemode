@@ -6,6 +6,8 @@ import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { createDateCoursePrompt } from "@/lib/reco/prompt";
 import { toJson } from "@/lib/reco/to-json";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { randomUUID } from "crypto";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function recommendAction(_: any, formData: FormData) {
@@ -39,12 +41,36 @@ export default async function recommendAction(_: any, formData: FormData) {
 
     // supabase DB에 ai 응답 저장하기
     const supabase = await createSupabaseServerClient();
+
+    // 1) 로그인 여부 확인하기
+    const { data: userData } = await supabase.auth.getUser();
+    const user = userData.user;
+    const insertRow: any = {
+      input_data: toJson(parsed.data),
+      ai_response: toJson(result.data),
+    };
+    if (user) {
+      insertRow.user_id = user.id;
+    } else {
+      const cookieStore = await cookies();
+      let anonKey = cookieStore.get("anon_key")?.value;
+
+      if (!anonKey) {
+        anonKey = randomUUID();
+        cookieStore.set("anon_key", anonKey, {
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+        });
+      }
+
+      insertRow.anon_key = anonKey;
+    }
+
     const { data, error } = await supabase
       .from("recommendations")
-      .insert({
-        input_data: toJson(parsed.data),
-        ai_response: toJson(result.data),
-      })
+      .insert(insertRow)
       .select("id")
       .single();
     if (error) {
