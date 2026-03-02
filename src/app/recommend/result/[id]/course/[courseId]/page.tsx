@@ -1,13 +1,10 @@
-import CourseDetail from "@/components/course/CourseDetail";
-import CourseHeader from "@/components/course/CourseHeader";
-import KakaoMapProvider from "@/components/course/KakaoMapProvider";
-import SaveBtn from "@/components/course/SaveBtn";
+import CourseDetailView from "@/components/common/CourseDetailView";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getBookmarkStatus } from "@/lib/supabase/getBookmarkStatus";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
 import { notFound } from "next/navigation";
 
-export default async function Course({
+export default async function Page({
   params,
 }: {
   params: Promise<{ id: string; courseId: string }>;
@@ -22,7 +19,6 @@ export default async function Course({
   }
   // 2) 북마크 데이터 조회
   const { isBookmarked } = await getBookmarkStatus(id, courseId);
-  console.log(`SERVER BMdata: ${isBookmarked}`);
 
   const aiResponse = RecommendResponseSchema.safeParse(row.ai_response);
   if (!aiResponse.success) {
@@ -38,28 +34,11 @@ export default async function Course({
   }
 
   return (
-    <KakaoMapProvider>
-      <div className="mx-auto max-w-xl md:max-w-5xl px-4">
-        <CourseHeader
-          title={courseData.title}
-          durationHours={courseData.durationHours}
-          tags={courseData.tags}
-          courseData={courseData}
-          recommendId={id}
-          initialBookmarked={isBookmarked}
-        />
-        <CourseDetail summary={courseData.summary} spots={courseData.spots} />
-        <div className="md:hidden flex justify-center items-center gap-2 mt-2">
-          <SaveBtn
-            courseData={courseData}
-            recommendId={id}
-            initialBookmarked={isBookmarked}
-          />
-          <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-            공유하기
-          </button>
-        </div>
-      </div>
-    </KakaoMapProvider>
+    <CourseDetailView
+      courseData={courseData}
+      recommendId={id}
+      isBookmarked={isBookmarked}
+      mode={"recommend"}
+    />
   );
 }

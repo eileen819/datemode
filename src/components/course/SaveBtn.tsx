@@ -27,7 +27,7 @@ export default function SaveBtn({
       return prev;
     },
   );
-  console.log(`initBM: ${bookmarked}`);
+
   const onClick = async () => {
     if (isPending) return;
 

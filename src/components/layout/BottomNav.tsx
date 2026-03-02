@@ -10,7 +10,7 @@ interface NavItem {
   Icon: LucideIcon;
 }
 
-const items: NavItem[] = [
+export const navItems: NavItem[] = [
   {
     href: "/",
     label: "home",
@@ -42,7 +42,7 @@ export default function BottomNav() {
   return (
     <nav className="md:hidden fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-107.5 border-t border-border bg-background/90 backdrop-blur">
       <div className="grid grid-cols-3 place-items-center h-16 px-4">
-        {items.map(({ href, label, Icon }) => {
+        {navItems.map(({ href, label, Icon }) => {
           const active = url === href;
           return (
             <Link

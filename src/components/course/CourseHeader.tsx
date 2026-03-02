@@ -1,6 +1,7 @@
 import { Clock } from "lucide-react";
 import { CourseObj } from "@/lib/reco/output-schema";
 import SaveBtn from "./SaveBtn";
+import DelBookmarkBtn from "../me/DelBookmarkBtn";
 
 export default function CourseHeader({
   title,
@@ -9,6 +10,7 @@ export default function CourseHeader({
   courseData,
   recommendId,
   initialBookmarked,
+  mode,
 }: {
   title: string;
   durationHours: number;
@@ -16,9 +18,10 @@ export default function CourseHeader({
   courseData: CourseObj;
   recommendId: string;
   initialBookmarked: boolean;
+  mode: "recommend" | "bookmarks";
 }) {
   return (
-    <header className="md:flex md:justify-between md:items-center border-b border-border/60 md:border-none pb-4">
+    <header className="flex justify-between items-center border-b border-border/60 md:border-none pb-4">
       <div>
         <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
         <div className="flex items-center gap-3 md:gap-6 pt-1 text-muted-foreground">
@@ -36,16 +39,19 @@ export default function CourseHeader({
         </div>
       </div>
       {/* md사이즈 이상에서 저장/공유버튼 */}
-      <div className="hidden md:flex md:justify-center md:items-center md:gap-2">
-        <SaveBtn
-          courseData={courseData}
-          recommendId={recommendId}
-          initialBookmarked={initialBookmarked}
-        />
-        <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-          공유하기
-        </button>
-      </div>
+      {mode === "recommend" && (
+        <div className="hidden md:flex md:justify-center md:items-center md:gap-2">
+          <SaveBtn
+            courseData={courseData}
+            recommendId={recommendId}
+            initialBookmarked={initialBookmarked}
+          />
+          <button className="text-sm border border-border px-4 py-2 rounded-2xl bg-foreground text-muted hover:bg-accent/60 hover:text-foreground cursor-pointer transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            공유하기
+          </button>
+        </div>
+      )}
+      {mode === "bookmarks" && <DelBookmarkBtn />}
     </header>
   );
 }

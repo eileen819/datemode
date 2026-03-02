@@ -13,9 +13,10 @@ export default async function HistorySection() {
 
   if (userError || !user) {
     console.error(userError);
-    redirect(`/login?redirectTo=${encodeURIComponent("/me?tab=bookmarks")}`);
+    redirect(`/login?redirectTo=${encodeURIComponent("/me?tab=history")}`);
   }
 
+  // 로그인한 사용자의 추천 기록을 DB에서 조회
   const { data: historyData, error: historyError } = await supabase
     .from("recommendations")
     .select("*")
@@ -25,28 +26,6 @@ export default async function HistorySection() {
   if (historyError) {
     throw new Error("검색 기록 데이터를 찾을 수 없어요!");
   }
-
-  const parsedInput =
-    historyData?.flatMap((h) => {
-      const parsed = DataRequestSchema.safeParse(h.input_data);
-      if (!parsed.success) {
-        console.warn("Invalid input_data");
-        return [];
-      }
-      const createdAtText = new Intl.DateTimeFormat("ko-KR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      }).format(new Date(h.created_at));
-
-      return [
-        {
-          id: h.id,
-          inputData: parsed.data,
-          createdAtText,
-        },
-      ];
-    }) ?? [];
 
   if (!historyData || historyData.length === 0) {
     return (
@@ -71,6 +50,36 @@ export default async function HistorySection() {
     );
   }
 
+  const parsedInput =
+    historyData?.flatMap((h) => {
+      const parsed = DataRequestSchema.safeParse(h.input_data);
+      if (!parsed.success) {
+        console.warn("Invalid input_data");
+        return [];
+      }
+      const createdAtText = new Intl.DateTimeFormat("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(new Date(h.created_at));
+
+      return [
+        {
+          id: h.id,
+          inputData: parsed.data,
+          createdAtText,
+        },
+      ];
+    }) ?? [];
+
+  if (parsedInput.length === 0) {
+    return (
+      <div className="text-sm text-muted-foreground text-center mt-20">
+        ❗️ 검색 기록은 존재하지만 데이터 형식이 달라 표시할 수 없어요.
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 py-6">
       {parsedInput.map((a) => (
@@ -83,7 +92,7 @@ export default async function HistorySection() {
               <h2 className="font-semibold">{a.inputData.region}</h2>
               <div className="bg-accent w-1 h-1 rounded-full" />
               <p className="text-sm text-muted-foreground break-keep">
-                {a.inputData.categories.map((c) => c).join(" | ")}
+                {a.inputData.categories.join(" | ")}
               </p>
               <div className="bg-accent w-1 h-1 rounded-full" />
               <span className="text-sm text-muted-foreground">
