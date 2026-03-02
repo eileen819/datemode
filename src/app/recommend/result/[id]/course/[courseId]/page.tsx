@@ -3,7 +3,46 @@ import ExpiredCourse from "@/components/course/ExpiredCourse";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getBookmarkStatus } from "@/lib/supabase/getBookmarkStatus";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string; courseId: string }>;
+}): Promise<Metadata> {
+  const { id, courseId } = await params;
+  const row = await getRecommendationRow(id);
+  if (!row) {
+    return {
+      title: "코스를 찾을 수 없음",
+      description: "요청하신 추천 코스를 찾을 수 없습니다.",
+    };
+  }
+  const aiResponse = RecommendResponseSchema.safeParse(row.ai_response);
+  if (!aiResponse.success) {
+    return {
+      title: "코스를 찾을 수 없음",
+      description: "요청하신 추천 코스를 찾을 수 없습니다.",
+    };
+  }
+  const validateResponse = aiResponse.data;
+  const courseData = validateResponse.courses.find((c) => c.id === courseId);
+  if (!courseData) {
+    return {
+      title: "코스를 찾을 수 없음",
+      description: "요청하신 추천 코스를 찾을 수 없습니다.",
+    };
+  }
+  return {
+    title: courseData.title,
+    description: courseData.summary,
+    openGraph: {
+      title: courseData.title,
+      description: courseData.summary,
+    },
+  };
+}
 
 export default async function Page({
   params,

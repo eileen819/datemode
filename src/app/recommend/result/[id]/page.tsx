@@ -4,6 +4,11 @@ import RecoHeader from "@/components/recommend/RecoHeader";
 import { DataRequestSchema } from "@/lib/reco/input-schema";
 import { RecommendResponseSchema } from "@/lib/reco/output-schema";
 import { getRecommendationRow } from "@/lib/supabase/getRecommendationRow";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AI 추천 코스",
+};
 
 export default async function Page({
   params,

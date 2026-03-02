@@ -1,5 +1,11 @@
 import EmailMagicLink from "@/components/login/EmailMagicLink";
 import GoogleLoginBtn from "@/components/login/GoogleLoginBtn";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "로그인",
+  description: "간편 로그인으로 추천 기록과 북마크 코스를 저장하고 관리하세요.",
+};
 
 export default function Page() {
   return (
