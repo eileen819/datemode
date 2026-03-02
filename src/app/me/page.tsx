@@ -2,6 +2,7 @@ import BookmarkSection from "@/components/me/BookmarkSection";
 import HistorySection from "@/components/me/HistorySection";
 import MeTabs from "@/components/me/MeTabs";
 import ProfileBox from "@/components/me/ProfileBox";
+import { redirect } from "next/navigation";
 
 export default async function Page({
   searchParams,
@@ -9,6 +10,9 @@ export default async function Page({
   searchParams: Promise<{ tab: string }>;
 }) {
   const { tab } = await searchParams;
+  if (!tab) {
+    redirect("/me?tab=history");
+  }
 
   return (
     <div>

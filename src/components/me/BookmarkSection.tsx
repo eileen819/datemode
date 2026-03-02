@@ -1,9 +1,10 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import CourseCard from "../recommend/CourseCard";
 import { CourseSchema } from "@/lib/reco/output-schema";
 import Link from "next/link";
 import Image from "next/image";
+import BookmarkLoadMore from "./BookmarkLoadMore";
+import { RowItem } from "@/types";
 
 export default async function BookmarkSection() {
   const supabase = await createSupabaseServerClient();
@@ -18,12 +19,13 @@ export default async function BookmarkSection() {
   }
 
   // 북마크 데이터 조회하기
+  const PAGE_SIZE = 10;
   const { data: bookmarkData, error: bookmarkError } = await supabase
     .from("bookmarks")
-    .select("*")
+    .select("id, created_at, snapshot, source_recommend_id")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
-    .limit(10);
+    .range(0, PAGE_SIZE);
 
   if (bookmarkError) {
     throw new Error("북마크 데이터를 찾을 수 없어요!");
@@ -54,8 +56,12 @@ export default async function BookmarkSection() {
     );
   }
 
-  const parsedSnapshot =
-    bookmarkData?.flatMap((b) => {
+  const hasMore = (bookmarkData ?? []).length > PAGE_SIZE;
+  const firstPage = (bookmarkData ?? []).slice(0, PAGE_SIZE);
+  const nextOffset = PAGE_SIZE;
+
+  const parsedSnapshot: RowItem[] =
+    firstPage?.flatMap((b) => {
       const parsed = CourseSchema.safeParse(b.snapshot);
 
       if (!parsed.success) {
@@ -80,15 +86,10 @@ export default async function BookmarkSection() {
   }
 
   return (
-    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 py-6">
-      {parsedSnapshot.map((p) => (
-        <CourseCard
-          key={p.parsedId}
-          item={p.item}
-          mode={"bookmarks"}
-          bookmarkId={p.parsedId}
-        />
-      ))}
-    </div>
+    <BookmarkLoadMore
+      initialRow={parsedSnapshot}
+      initialHasMore={hasMore}
+      initialOffset={nextOffset}
+    />
   );
 }

@@ -1,4 +1,5 @@
 import { Budget, Category, Region, Timeslot } from "./constants/tags";
+import { CourseObj } from "./lib/reco/output-schema";
 export interface IFilter {
   region: Region | "";
   categories: Category[];
@@ -6,21 +7,8 @@ export interface IFilter {
   timeslot: Timeslot | "";
 }
 
-/* export type Spot = {
-  name: string;
-  address: string;
-  reason: string;
-  // 나중에 좌표 붙일 자리
-  // lat?: number;
-  // lng?: number;
+export type RowItem = {
+  parsedId: string;
+  item: CourseObj;
+  resultId: string;
 };
-
-export type Course = {
-  id: string;
-  title: string;
-  summary: string;
-  durationHours?: number;
-  tags: string[];
-  spots: Spot[];
-};
- */

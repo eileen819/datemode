@@ -1,3 +1,7 @@
 export default function NotFound() {
-  return <div>404: Not Found</div>;
+  return (
+    <div className="flex justify-center items-center mt-10 text-muted-foreground">
+      ❗️ 404: Not Found
+    </div>
+  );
 }

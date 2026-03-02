@@ -8,8 +8,8 @@ export default function Error({ error }: { error: Error }) {
   }, [error]);
 
   return (
-    <div>
-      <h2>오류가 발생했습니다.</h2>
+    <div className="flex justify-center items-center mt-10 text-muted-foreground">
+      ❗️ 오류가 발생했습니다.
     </div>
   );
 }
