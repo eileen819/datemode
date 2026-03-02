@@ -1,4 +1,15 @@
-import { Course } from "@/types";
+interface Course {
+  id: string;
+  title: string;
+  summary: string;
+  durationHours: number;
+  tags: string[];
+  spots: {
+    name: string;
+    address: string;
+    reason: string;
+  }[];
+}
 
 export const mockRecommend: { courses: Course[] } = {
   courses: [
