@@ -44,7 +44,10 @@ export default function RootLayout({
             <BottomNav />
           </Suspense>
           <footer className="hidden md:flex w-full items-center justify-center border-t border-border py-4 text-sm text-muted-foreground">
-            {new Date().getFullYear()} | Copyright Eileen
+            <p>
+              &copy; {new Date().getFullYear()} DateMode &bull; All rights
+              reserved.
+            </p>
           </footer>
         </div>
       </body>
