@@ -12,6 +12,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://datemode.vercel.app/"),
   title: {
     default: "DateMode",
     template: "%s | DateMode",

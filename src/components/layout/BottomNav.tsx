@@ -48,7 +48,7 @@ export default function BottomNav() {
             <Link
               href={href}
               key={label}
-              className="flex justify-center items-center"
+              className="flex justify-center items-center w-full h-full"
             >
               <Icon
                 className={`${active ? "text-accent" : "text-foreground/60"} transition-colors duration-200 ease-in-out`}
