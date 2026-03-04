@@ -1,6 +1,8 @@
 import EmailMagicLink from "@/components/login/EmailMagicLink";
 import GoogleLoginBtn from "@/components/login/GoogleLoginBtn";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -8,12 +10,24 @@ export const metadata: Metadata = {
   description: "간편 로그인으로 추천 기록과 북마크 코스를 저장하고 관리하세요.",
 };
 
-export default function Page() {
+export default async function Page() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+  if (authError) {
+    console.error("supabase auth.getUser error on /login:", authError);
+  }
+  if (user) {
+    redirect("/me?tab=history");
+  }
+
   return (
     <section className="grid place-items-center mt-20">
       <div className="w-full max-w-xs flex flex-col justify-center gap-4">
         <h1 className="text-2xl font-semibold text-center">로그인</h1>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className="h-22" />}>
           <EmailMagicLink />
         </Suspense>
         <div className="flex items-center gap-4">
@@ -21,7 +35,7 @@ export default function Page() {
           <span className="text-sm text-muted-foreground">또는</span>
           <div className="flex-1 h-px bg-border" />
         </div>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className="h-10" />}>
           <GoogleLoginBtn />
         </Suspense>
         <p className="text-sm text-muted-foreground text-center break-keep">
