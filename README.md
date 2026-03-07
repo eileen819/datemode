@@ -2,10 +2,10 @@
 
 ### 👀 오늘 어디 갈까? AI가 오늘의 데이트 코스를 추천해드려요!
 
-🔗 **Demo:** [DateMode](https://datemode.vercel.app/)
-
 > AI 기반 데이트 코스 추천 서비스  
-> Next.js + Supabase + Gemini + Kakao Map
+> Next.js + Supabase + Gemini + Kakao Maps
+
+🔗 **Demo:** https://datemode.vercel.app/
 
 ![Home UI](docs/home.png)
 
