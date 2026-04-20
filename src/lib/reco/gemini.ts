@@ -7,9 +7,17 @@ const apiKey = process.env.GEMINI_API_KEY;
 const PRIMARY_MODEL = "gemini-2.5-flash";
 const FALLBACK_MODEL = "gemini-2.5-flash-lite";
 
-type RecommendResult =
-  | { status: true; data: z.infer<typeof RecommendResponseSchema> }
-  | { status: false; error: string };
+type RecommendSuccess = {
+  status: true;
+  data: z.infer<typeof RecommendResponseSchema>;
+};
+
+type RecommendFail = {
+  status: false;
+  error: string;
+};
+
+export type RecommendResult = RecommendSuccess | RecommendFail;
 
 function isRetryable503Error(error: unknown) {
   const err = error as {

@@ -78,7 +78,7 @@ export async function reRecoFetchAction(resultId: string) {
 
   try {
     const result = await generateRecommend(prompt);
-    if (!result.status || !result.data) {
+    if (!result.status) {
       return {
         status: false,
         error: `AI 응답 오류: ${result.error ?? "데이터를 생성하지 못했습니다."}`,

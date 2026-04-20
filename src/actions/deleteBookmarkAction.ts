@@ -1,7 +1,6 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 
 export async function deleteBookmarkAction(bookmarkId: string) {
   const supabase = await createSupabaseServerClient();

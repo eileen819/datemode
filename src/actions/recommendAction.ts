@@ -32,7 +32,7 @@ export default async function recommendAction(_: any, formData: FormData) {
   try {
     // gemini 추천코스 응답 호출하기
     const result = await generateRecommend(prompt);
-    if (!result.status || !result.data) {
+    if (!result.status) {
       return {
         status: false,
         error: `AI 응답에 오류가 발생했습니다: ${result.error ?? "unknown"}`,
