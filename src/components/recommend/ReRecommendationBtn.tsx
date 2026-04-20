@@ -43,6 +43,7 @@ export default function ReRecommendationBtn({
       <button
         onClick={handleRefetch}
         disabled={isPending}
+        type="button"
         className={`flex justify-center items-center gap-2 ${isPending ? "" : "cursor-pointer"} text-sm border border-border rounded-lg px-3 py-1.5 bg-card hover:bg-accent/30 transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
       >
         <RefreshCcw size={16} className={isPending ? "animate-spin" : ""} />
