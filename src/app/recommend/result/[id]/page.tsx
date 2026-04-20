@@ -40,9 +40,12 @@ export default async function Page({
   const validateResponse = aiResponse.data;
 
   return (
-    <div>
-      <RecoHeader resultId={id} inputData={validateInputData} />
-      <CourseList resultId={id} courses={validateResponse.courses} />
-    </div>
+    <>
+      <div>
+        <RecoHeader resultId={id} inputData={validateInputData} />
+        <CourseList resultId={id} courses={validateResponse.courses} />
+      </div>
+      <div id="modal-root"></div>
+    </>
   );
 }
